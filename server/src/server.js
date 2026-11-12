@@ -1,3 +1,6 @@
+import dns from "node:dns";
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -5,7 +8,8 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-
+import companyRoutes from "./routes/companyRoutes.js";
+import experienceRoutes from "./routes/experienceRoutes.js";
 
 
 connectDB();
@@ -19,6 +23,9 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => res.json({ message: "API running" }));
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/companies", companyRoutes);
+app.use("/api/experiences", experienceRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
